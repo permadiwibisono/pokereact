@@ -11,34 +11,27 @@ class PokemonList extends React.Component{
 		}
 	}
 	componentDidMount(){
-		var url='http://www.pokeapi.co/api/v2/pokemon?limit='+this.state.limit+'&offset='+this.state.offset;
-		var request = new Request(url, {
-			headers: new Headers({
-				'Access-Control-Allow-Origin': '*'
-			})
-		});
+		var url='http://pokeapi.salestock.net:8000/api/v2/pokemon?limit='+this.state.limit+'&offset='+this.state.offset;
+		var request = new Request(url);
         fetch(request) 
-        .then(result=> {
-        	console.log(result.json());
-            this.setState({pokemons:result.results.json()});
+        .then(response=> {
+        	return response.json();
+        }).then(json=>{
+            this.setState({pokemons:json.results});        
         });
+	}
+	renderItem(pokemon, key){
+		return <PokemonListItem pokemonObj={pokemon} key={key}/>
 	}
 	render(){
 		return (
-			<table className="table table-responsive table-hover">
-				<thead>
-					<tr>
-						<td>Id</td>
-						<td>Name</td>
-					</tr>
-				</thead>
-				<tbody>
-					{this.state.pokemons.map((pokemon,key)=>{
-											 <PokemonListItem pokemonObj={pokemon} key={key}/>
-										})
-					}
-				</tbody>
-			</table>
+			<div className="container" style={{padding:15}}>
+				<div className="row">
+				{
+					this.state.pokemons.map(this.renderItem.bind(this))
+				}
+				</div>
+			</div>
 			);
 	}
 }
