@@ -45,7 +45,7 @@ class PokemonListItemTipe extends React.Component{
 			electric:{
 				backgroundColor:'#A1871F'
 			},
-			psy:{
+			psychic:{
 				backgroundColor:'#A13959'
 			},
 			ice:{
